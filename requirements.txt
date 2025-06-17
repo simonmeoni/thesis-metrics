@@ -1,0 +1,5 @@
+git+https://github.com/simonmeoni/measure.git
+uv==0.7.13
+wandb==0.20.1
+pandas==2.3.0
+

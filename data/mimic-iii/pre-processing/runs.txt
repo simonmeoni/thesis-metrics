@@ -1,0 +1,9 @@
+ratio 4%:
+	- sft: clinical-dream-team/score-style-transfer/mru97w7c *** 67.95
+	- dpo-1: clinical-dream-team/score-style-transfer/mh67il8t *** 71.35
+	- dpo-2: clinical-dream-team/score-style-transfer/yv5v4516 *** 72.25
+
+ratio 6%:
+	- sft: clinical-dream-team/score-style-transfer/ofzh3aqu *** 67.26
+	- dpo-1: clinical-dream-team/score-style-transfer/tg4jsyrw *** 70.78
+	- dpo-2: clinical-dream-team/score-style-transfer/8l6avevp *** 74.37
