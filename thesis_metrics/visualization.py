@@ -52,23 +52,24 @@ class TerminalVisualizer:
         console.print()
 
     def display_bar_chart(self, results_df: pd.DataFrame, dataset_name: str):
-        """Display bar chart of metrics in terminal"""
+        """Display bar chart of accuracy metrics in terminal"""
 
-        # Filter numeric columns only
-        numeric_cols = results_df.select_dtypes(include=["float64", "int64"]).columns
-        if len(numeric_cols) == 0:
+        # Filter only accuracy metrics
+        accuracy_cols = [col for col in results_df.columns if "accuracy" in col.lower()]
+        if len(accuracy_cols) == 0:
             return
 
-        # Get metric names and values
-        metrics = [col for col in numeric_cols if col != "dataset"]
-        values = [results_df[col].iloc[0] for col in metrics]
+        # Get metric names (clean labels) and values
+        metrics = [col.replace("/accuracy", "").replace("_", " ").title() for col in accuracy_cols]
+        values = [results_df[col].iloc[0] for col in accuracy_cols]
 
         # Create horizontal bar chart
         plt.clear_figure()
         plt.bar(metrics, values, orientation="h", width=0.3)
-        plt.title(f"Privacy Attack Results - {dataset_name}")
-        plt.xlabel("Score")
-        plt.ylabel("Attack")
+        plt.title(f"Privacy Attack Accuracy - {dataset_name}")
+        plt.xlabel("Accuracy")
+        plt.ylabel("Attack Type")
+        plt.xlim(0, 1.0)  # Accuracy is between 0 and 1
         plt.theme("pro")
         plt.plotsize(100, 20)
         plt.show()
