@@ -11,7 +11,6 @@ from pathlib import Path
 import hydra
 from omegaconf import DictConfig, OmegaConf
 from rich.console import Console
-from rich.logging import RichHandler
 from rich.panel import Panel
 from rich.table import Table
 
@@ -47,7 +46,7 @@ def display_config(cfg: DictConfig):
     console.print()
 
 
-@hydra.main(version_base=None, config_path="configs", config_name="config")
+@hydra.main(version_base=None, config_path="../configs", config_name="config")
 def main(cfg: DictConfig) -> None:
     """
     Main entry point for privacy metrics evaluation

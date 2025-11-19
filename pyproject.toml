@@ -3,7 +3,7 @@ name = "thesis-metrics"
 version = "0.1.0"
 description = "Privacy metrics evaluation for synthetic medical data"
 authors = [
-    {name = "Simon", email = "simon@example.com"}
+    {name = "Simon", email = "simonmeoni@aol.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.10"
@@ -17,6 +17,7 @@ dependencies = [
     "rich>=13.0.0",
     "plotext>=5.2.0",
     "wandb>=0.16.0",
+    "sentence-transformers>=5.1.2",
 ]
 
 [project.optional-dependencies]
@@ -27,13 +28,6 @@ dev = [
     "ipython>=8.15.0",
 ]
 
-[project.scripts]
-privacy-metrics = "thesis_metrics.cli:main"
-
-[build-system]
-requires = ["setuptools>=68.0"]
-build-backend = "setuptools.build_meta"
-
 [tool.black]
 line-length = 100
 target-version = ['py310']
@@ -42,6 +36,14 @@ target-version = ['py310']
 line-length = 100
 target-version = "py310"
 
+[project.scripts]
+privacy-metrics = "thesis_metrics.cli:main"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["thesis_metrics*"]
+exclude = ["data*", "slurm*", "outputs*", "wandb*"]
