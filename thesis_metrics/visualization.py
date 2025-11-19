@@ -65,12 +65,11 @@ class TerminalVisualizer:
 
         # Create horizontal bar chart
         plt.clear_figure()
-        plt.bar(metrics, values, orientation="h", width=0.3)
+        plt.barh(metrics, values)
         plt.title(f"Privacy Attack Accuracy - {dataset_name}")
         plt.xlabel("Accuracy")
-        plt.ylabel("Attack Type")
         plt.xlim(0, 1.0)  # Accuracy is between 0 and 1
         plt.theme("pro")
-        plt.plotsize(100, 20)
+        plt.plotsize(100, len(metrics) * 3 + 5)
         plt.show()
         console.print()
