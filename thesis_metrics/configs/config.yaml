@@ -1,0 +1,27 @@
+# Main configuration for privacy metrics evaluation
+
+defaults:
+  - dataset: alpacare_dpo
+  - attacks: default
+  - _self_
+
+# Output configuration
+output:
+  dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  save_report: true
+
+# Logging configuration
+logging:
+  level: INFO
+
+# WandB configuration (disabled by default)
+wandb:
+  enabled: false
+  project: thesis-metrics
+  entity: null
+  tags: []
+
+# Visualization configuration
+visualization:
+  terminal_plots: true
+  save_plots: false

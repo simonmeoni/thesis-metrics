@@ -1,0 +1,21 @@
+# Privacy attack configuration
+
+# Which attacks to run
+enabled:
+  - linkage_tfidf
+  - random_baseline
+  - proximity_tfidf
+  - proximity_random
+
+# Attack-specific parameters
+linkage_tfidf:
+  name: "Linkage Attack (TF-IDF)"
+
+random_baseline:
+  name: "Random Baseline"
+
+proximity_tfidf:
+  name: "Proximity Attack (TF-IDF)"
+
+proximity_random:
+  name: "Proximity Attack (Random)"

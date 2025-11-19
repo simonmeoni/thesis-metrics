@@ -1,0 +1,16 @@
+# AlpaCare DP-SFT dataset configuration
+
+name: alpacare_dp-sft
+
+# Source dataset with cluster_id and split
+source_path: data/alpacare/alpacare_from_private_k-4000_full.parquet
+
+# Synthetic dataset to evaluate
+synthetic_path: data/alpacare/model=ovs3z1ey_size=60000_step=dp-sft_sort=mes.parquet
+
+# Column mapping
+columns:
+  instruction: instruction
+  response: response
+  cluster_id: cluster_id
+  synthetic_text: chosen
