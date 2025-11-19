@@ -63,13 +63,16 @@ class TerminalVisualizer:
         metrics = [col.replace("/accuracy", "").replace("_", " ").title() for col in accuracy_cols]
         values = [results_df[col].iloc[0] for col in accuracy_cols]
 
-        # Create horizontal bar chart
+        # Create vertical bar chart
         plt.clear_figure()
-        plt.barh(metrics, values)
+
+        # Plot all bars at once
+        plt.bar(metrics, values, orientation="v", width=0.6)
+
         plt.title(f"Privacy Attack Accuracy - {dataset_name}")
-        plt.xlabel("Accuracy")
-        plt.xlim(0, 1.0)  # Accuracy is between 0 and 1
+        plt.ylabel("Accuracy")
+        plt.ylim(0, 1.0)  # Accuracy is between 0 and 1
         plt.theme("pro")
-        plt.plotsize(100, len(metrics) * 3 + 5)
+        plt.plotsize(120, 30)
         plt.show()
         console.print()
