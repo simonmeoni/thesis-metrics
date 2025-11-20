@@ -45,10 +45,14 @@ class PrivacyEvaluator:
         """Extract keywords from both datasets"""
         logger.info("Extracting keywords...")
 
-        df_source["keywords_str"] = df_source[self.cfg.dataset.columns.instruction].apply(
+        # Support separate column names for source and synthetic datasets
+        source_instruction_col = self.cfg.dataset.columns.private_instruction
+        synthetic_instruction_col = self.cfg.dataset.columns.instruction
+
+        df_source["keywords_str"] = df_source[source_instruction_col].apply(
             extract_keywords_from_instruction
         )
-        df_synthetic["keywords_str"] = df_synthetic[self.cfg.dataset.columns.instruction].apply(
+        df_synthetic["keywords_str"] = df_synthetic[synthetic_instruction_col].apply(
             extract_keywords_from_instruction
         )
 
@@ -94,7 +98,16 @@ class PrivacyEvaluator:
         logger.info("Preparing attack dataframes...")
 
         # Create private_id from cluster_id
-        df["private_id"], _ = pd.factorize(df[self.cfg.dataset.columns.cluster_id])
+        # After merge, cluster_id might have a suffix if it exists in both datasets
+        cluster_col = self.cfg.dataset.columns.cluster_id
+        if cluster_col in df.columns:
+            cluster_id_col = cluster_col
+        elif f"{cluster_col}_private" in df.columns:
+            cluster_id_col = f"{cluster_col}_private"
+        else:
+            raise ValueError(f"Cannot find cluster_id column: {cluster_col}")
+
+        df["private_id"], _ = pd.factorize(df[cluster_id_col])
 
         # Public dataset (synthetic text)
         public_df = pd.DataFrame(

@@ -1,0 +1,14 @@
+# Rephrasing configuration for instruction mode
+
+defaults:
+  - default
+
+# Mode
+mode: instruction
+
+# Example paths (override these via command line)
+input_path: data/input.parquet
+output_path: data/output_rephrased.parquet
+
+# Instruction column to rephrase
+instruction_column: instruction

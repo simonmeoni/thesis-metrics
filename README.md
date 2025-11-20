@@ -20,36 +20,73 @@ pre-commit install
 
 ## Usage
 
-### Basic usage with default config (AlpaCare DPO dataset):
+### Privacy Evaluation
+
+Basic usage with default config (AlpaCare DPO dataset):
 
 ```bash
 privacy-metrics
 ```
 
-### Evaluate DP-SFT dataset:
+Evaluate DP-SFT dataset:
 
 ```bash
 privacy-metrics dataset=alpacare_dpsft
 ```
 
-### Enable WandB logging:
+Enable WandB logging:
 
 ```bash
 privacy-metrics wandb.enabled=true wandb.project=my-project
 ```
 
-### Customize attacks:
+Customize attacks:
 
 ```bash
 privacy-metrics attacks.enabled=[linkage_tfidf,proximity_tfidf]
 ```
 
-### View all configuration options:
+View all configuration options:
 
 ```bash
 privacy-metrics --help
 privacy-metrics --cfg job
 ```
+
+### Text Rephrasing
+
+The package includes a rephrasing module for data augmentation with configurable prompts and temperature. See [REPHRASING.md](REPHRASING.md) for detailed documentation.
+
+Quick examples:
+
+```bash
+# Rephrase best-scoring generations
+rephrase rephrasing=generation \
+  rephrasing.input_path=data/input.parquet \
+  rephrasing.output_path=data/output_rephrased.parquet
+
+# Rephrase with custom temperature
+rephrase rephrasing=generation \
+  rephrasing.input_path=data/input.parquet \
+  rephrasing.output_path=data/output_rephrased.parquet \
+  rephrasing.temperature=0.9
+
+# Rephrase with custom prompt
+rephrase rephrasing=generation \
+  rephrasing.input_path=data/input.parquet \
+  rephrasing.output_path=data/output_rephrased.parquet \
+  rephrasing.generation_prompt="Your custom prompt: {text}"
+```
+
+**Note**: Rephrasing requires a Groq API key. Set it via:
+```bash
+export GROQ_API_KEY='your-api-key-here'
+```
+
+**See [REPHRASING.md](REPHRASING.md) for:**
+- Customizing prompts and temperature
+- Performance tuning
+- Use case examples
 
 ## Configuration
 

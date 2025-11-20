@@ -1,0 +1,17 @@
+# MIMIC-III 6% epsilon DPO-2 dataset configuration
+
+name: mimic_6pct_dpo2
+
+# Source dataset with patient_id and split
+source_path: data/mimic-iii/privacy_dataset_filtered.parquet
+
+# Synthetic dataset to evaluate
+synthetic_path: data/mimic-iii/6%-dpo_2-8l6avevp.parquet
+
+# Column mapping
+columns:
+  private_instruction: instruction
+  instruction: prompts
+  response: response
+  cluster_id: patient_id
+  synthetic_text: generation_1

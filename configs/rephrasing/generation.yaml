@@ -1,0 +1,11 @@
+# Rephrasing configuration for generation mode
+
+defaults:
+  - default
+
+# Mode
+mode: generation
+
+# Example paths (override these via command line)
+input_path: data/input.parquet
+output_path: data/output_rephrased.parquet

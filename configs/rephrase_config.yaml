@@ -1,0 +1,9 @@
+# Main configuration for rephrasing
+
+defaults:
+  - rephrasing: generation
+  - _self_
+
+# Logging configuration
+logging:
+  level: INFO

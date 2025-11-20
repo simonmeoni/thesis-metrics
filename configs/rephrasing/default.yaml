@@ -1,0 +1,42 @@
+# Default rephrasing configuration
+
+# Mode: "instruction" or "generation"
+mode: generation
+
+# Input/output paths
+input_path: ???  # Required: path to input parquet file
+output_path: ???  # Required: path to output parquet file
+
+# Groq API settings
+model: llama-3.3-70b-versatile  # Options: llama-3.3-70b-versatile, llama-3.1-8b-instant, mixtral-8x7b-32768
+temperature: 0.7
+max_tokens: 2048
+
+# Processing settings
+max_concurrent: 10  # Maximum concurrent API requests
+batch_size: 100  # Process in batches of this size
+
+# Instruction mode specific settings
+instruction_column: instruction  # Column to rephrase in instruction mode
+
+# Prompt templates
+instruction_prompt: |
+  You are a text rephrasing assistant. Your task is to rephrase the following medical instruction/question while:
+  1. Preserving the core medical question or intent
+  2. Changing the sentence structure and word choices to create a natural variation
+  3. Maintaining clarity and proper medical terminology when present
+  4. Keeping the same level of specificity
+
+  Original instruction:
+  {text}
+
+  Provide only the rephrased instruction without any additional commentary.
+
+generation_prompt: |
+  Please rephrase the following medical text while preserving all medical facts, dates, and clinical information.
+  Only provide the rephrased text without any additional commentary or explanations.
+
+  Original text:
+  {text}
+
+  Rephrased text:
