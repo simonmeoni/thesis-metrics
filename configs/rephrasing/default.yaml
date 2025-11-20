@@ -1,11 +1,19 @@
 # Default rephrasing configuration
 
-# Mode: "instruction" or "generation"
-mode: generation
-
 # Input/output paths
 input_path: ???  # Required: path to input parquet file
 output_path: ???  # Required: path to output parquet file
+
+# Column to rephrase
+column: ???  # Required: column name to rephrase
+
+# Optional: Select best generation from multiple generation columns first
+select_best_generation: false
+generation_prefix: generation_  # Prefix for generation columns (used when select_best_generation=true)
+score_prefix: eval_sem_scores_  # Prefix for score columns (used when select_best_generation=true)
+
+# Optional: Output column (defaults to same as input column)
+output_column: null  # If null, overwrites the input column
 
 # Groq API settings
 model: llama-3.3-70b-versatile  # Options: llama-3.3-70b-versatile, llama-3.1-8b-instant, mixtral-8x7b-32768
@@ -16,23 +24,8 @@ max_tokens: 2048
 max_concurrent: 10  # Maximum concurrent API requests
 batch_size: 100  # Process in batches of this size
 
-# Instruction mode specific settings
-instruction_column: instruction  # Column to rephrase in instruction mode
-
 # Prompt templates
-instruction_prompt: |
-  You are a text rephrasing assistant. Your task is to rephrase the following medical instruction/question while:
-  1. Preserving the core medical question or intent
-  2. Changing the sentence structure and word choices to create a natural variation
-  3. Maintaining clarity and proper medical terminology when present
-  4. Keeping the same level of specificity
-
-  Original instruction:
-  {text}
-
-  Provide only the rephrased instruction without any additional commentary.
-
-generation_prompt: |
+prompt: |
   Please rephrase the following medical text while preserving all medical facts, dates, and clinical information.
   Only provide the rephrased text without any additional commentary or explanations.
 
@@ -40,3 +33,21 @@ generation_prompt: |
   {text}
 
   Rephrased text:
+
+prompt_with_keywords: |
+  You are rephrasing medical text for privacy enhancement.
+
+  **CRITICAL INSTRUCTION**: The following keywords were automatically extracted from the text and MUST be replaced with synonyms or alternative phrasings:
+
+  Keywords to replace: {keywords}
+
+  Your task:
+  1. Replace EACH of these keywords with a synonym, alternative term, or rephrased expression
+  2. Preserve all medical facts, dates, measurements, and clinical information
+  3. Use different sentence structures
+  4. Maintain medical accuracy and clarity
+
+  Original text:
+  {text}
+
+  Provide ONLY the rephrased text where the keywords have been replaced:

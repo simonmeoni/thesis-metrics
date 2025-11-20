@@ -36,17 +36,22 @@ def display_config(cfg: DictConfig):
     table.add_column("Setting", style="cyan")
     table.add_column("Value", style="yellow")
 
-    table.add_row("Mode", cfg.rephrasing.mode)
     table.add_row("Input Path", str(cfg.rephrasing.input_path))
     table.add_row("Output Path", str(cfg.rephrasing.output_path))
+    table.add_row("Column", str(cfg.rephrasing.column))
+
+    if cfg.rephrasing.get("select_best_generation", False):
+        table.add_row("Best Generation", "Enabled")
+        table.add_row("Output Column", str(cfg.rephrasing.get("output_column", cfg.rephrasing.column)))
+
+    if cfg.rephrasing.get("use_keyword_prompt", False):
+        table.add_row("Keyword-Aware", "Enabled")
+
     table.add_row("Model", cfg.rephrasing.model)
     table.add_row("Temperature", str(cfg.rephrasing.temperature))
     table.add_row("Max Tokens", str(cfg.rephrasing.max_tokens))
     table.add_row("Batch Size", str(cfg.rephrasing.batch_size))
     table.add_row("Max Concurrent", str(cfg.rephrasing.max_concurrent))
-
-    if cfg.rephrasing.mode == "instruction":
-        table.add_row("Column", cfg.rephrasing.instruction_column)
 
     console.print(table)
     console.print()

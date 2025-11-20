@@ -1,0 +1,21 @@
+# Keyword replacement rephrasing configuration
+# Explicitly replaces extracted keywords for enhanced privacy
+#
+# Features:
+# 1. Uses pre-existing keywords column if available (MIMIC datasets)
+# 2. Extracts keywords from text if no keywords column exists (AlpaCare datasets)
+# 3. Passes keywords to LLM with explicit instruction to replace them
+
+defaults:
+  - default
+
+# Enable keyword-aware rephrasing
+use_keyword_prompt: true
+
+# Higher temperature for more variation in keyword replacement
+temperature: 0.9
+
+# Example paths (override via command line)
+input_path: data/input.parquet
+output_path: data/output_keyword_replaced.parquet
+column: chosen  # Default column (override as needed)
