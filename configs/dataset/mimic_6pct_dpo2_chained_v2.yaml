@@ -1,0 +1,17 @@
+# MIMIC 6% DPO-2 Chained V2 (Keyword Replacement V2 → Standard Rephrasing) dataset configuration
+
+name: mimic_6pct_dpo2_chained_v2
+
+# Source dataset with cluster_id and split
+source_path: data/mimic-iii/privacy_dataset_filtered.parquet
+
+# Synthetic dataset to evaluate (chained processing with V2 keyword prompt)
+synthetic_path: data/mimic-iii/6%-dpo_2-8l6avevp_keyword_replaced_v2_rephrased.parquet
+
+# Column mapping
+columns:
+  private_instruction: instruction
+  instruction: prompts
+  response: response
+  cluster_id: patient_id
+  synthetic_text: generation_rephrased_v2

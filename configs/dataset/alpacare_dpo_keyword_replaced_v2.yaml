@@ -1,0 +1,17 @@
+# AlpaCare DPO-1 Keyword Replaced V2 dataset configuration
+
+name: alpacare_dpo-1_keyword_replaced_v2
+
+# Source dataset with cluster_id and split
+source_path: data/alpacare/alpacare_from_private_k-4000_full.parquet
+
+# Synthetic dataset to evaluate (keyword replacement V2 only)
+synthetic_path: data/alpacare/model=0fe1620_size=60000_step=dpo-1_sort=mes_keyword_replaced_v2.parquet
+
+# Column mapping
+columns:
+  private_instruction: instruction
+  instruction: instruction
+  response: response
+  cluster_id: cluster_id
+  synthetic_text: chosen

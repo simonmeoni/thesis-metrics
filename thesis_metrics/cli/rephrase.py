@@ -15,8 +15,8 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from thesis_metrics.rephrasing import run_rephrasing_sync
-from thesis_metrics.utils import setup_logging
+from thesis_metrics.core.rephrasing import run_rephrasing_sync
+from thesis_metrics.utils.helpers import setup_logging
 
 console = Console()
 
@@ -57,7 +57,7 @@ def display_config(cfg: DictConfig):
     console.print()
 
 
-@hydra.main(version_base=None, config_path="../configs", config_name="rephrase_config")
+@hydra.main(version_base=None, config_path="../../configs", config_name="rephrase_config")
 def main(cfg: DictConfig) -> None:
     """
     Main entry point for rephrasing

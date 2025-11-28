@@ -1,0 +1,15 @@
+# Default configuration for downstream task evaluation
+# This file serves as the base for all downstream evaluation tasks
+
+defaults:
+  - _self_
+
+# Random seed for reproducibility
+seed: 42
+
+# Wandb configuration (optional)
+wandb_project: null
+
+# Task configuration - override this in specific task configs
+task:
+  type: ???  # Required: "semantic_similarity", "icd_classification", or "ner_classification"

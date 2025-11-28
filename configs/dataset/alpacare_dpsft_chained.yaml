@@ -1,0 +1,17 @@
+# AlpaCare DP-SFT Chained (Keyword Replacement → Standard Rephrasing) dataset configuration
+
+name: alpacare_dp-sft_chained
+
+# Source dataset with cluster_id and split
+source_path: data/alpacare/alpacare_from_private_k-4000_full.parquet
+
+# Synthetic dataset to evaluate (chained processing)
+synthetic_path: data/alpacare/model=ovs3z1ey_size=60000_step=dp-sft_sort=mes_keyword_replaced_rephrased.parquet
+
+# Column mapping
+columns:
+  private_instruction: instruction
+  instruction: instruction
+  response: response
+  cluster_id: cluster_id
+  synthetic_text: chosen

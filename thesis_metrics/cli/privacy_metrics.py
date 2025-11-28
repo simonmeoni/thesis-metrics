@@ -14,9 +14,9 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from thesis_metrics.evaluation import PrivacyEvaluator
-from thesis_metrics.utils import setup_logging
-from thesis_metrics.visualization import TerminalVisualizer
+from thesis_metrics.core.evaluation import PrivacyEvaluator
+from thesis_metrics.utils.helpers import setup_logging
+from thesis_metrics.utils.visualization import TerminalVisualizer
 
 console = Console()
 
@@ -46,7 +46,7 @@ def display_config(cfg: DictConfig):
     console.print()
 
 
-@hydra.main(version_base=None, config_path="../configs", config_name="config")
+@hydra.main(version_base=None, config_path="../../configs", config_name="config")
 def main(cfg: DictConfig) -> None:
     """
     Main entry point for privacy metrics evaluation

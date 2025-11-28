@@ -24,6 +24,26 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+alpacare = [
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "datasets>=2.14.0",
+    "trl>=0.7.0",
+    "peft>=0.5.0",
+    "accelerate>=0.20.0",
+    "vllm>=0.2.0",
+    "openai>=1.0.0",
+]
+
+downstream = [
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "datasets>=2.14.0",
+    "evaluate>=0.4.0",
+    "seqeval>=1.2.2",
+    "nltk>=3.8.0",
+]
+
 dev = [
     "pytest>=7.4.0",
     "black>=23.0.0",
@@ -40,8 +60,10 @@ line-length = 100
 target-version = "py310"
 
 [project.scripts]
-privacy-metrics = "thesis_metrics.cli:main"
-rephrase = "thesis_metrics.rephrase_cli:main"
+privacy-metrics = "thesis_metrics.cli.privacy_metrics:main"
+rephrase = "thesis_metrics.cli.rephrase:main"
+alpacare-eval = "thesis_metrics.cli.alpacare_eval:main"
+downstream-eval = "thesis_metrics.cli.downstream_eval:main"
 
 [build-system]
 requires = ["setuptools>=68.0"]
@@ -50,4 +72,4 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["thesis_metrics*"]
-exclude = ["data*", "slurm*", "outputs*", "wandb*"]
+exclude = ["data*", "slurm*", "outputs*", "wandb*", "dstream_tasks*"]

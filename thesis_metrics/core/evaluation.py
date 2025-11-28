@@ -6,13 +6,13 @@ import pandas as pd
 from omegaconf import DictConfig
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
-from thesis_metrics.privacy_attacks import (
+from thesis_metrics.core.privacy_attacks import (
     linkage_attack_tfidf,
     proximity_attack_random,
     proximity_attack_tfidf,
     random_leakage_attack,
 )
-from thesis_metrics.utils import extract_keywords_from_instruction
+from thesis_metrics.utils.helpers import extract_keywords_from_instruction
 
 logger = logging.getLogger(__name__)
 

@@ -1,0 +1,49 @@
+# Keyword replacement rephrasing configuration V2
+# Optimized for chained processing - uses professional medical terminology
+# to prevent restoration by subsequent rephrasing steps
+#
+# Key improvements over V1:
+# 1. Replaces keywords with equally precise medical alternatives
+# 2. Avoids lay terms that trigger "correction" by subsequent LLM processing
+# 3. Maintains clinical tone to create natural-sounding text
+# 4. Designed to work well with standard rephrasing as second step
+
+defaults:
+  - default
+
+# Enable keyword-aware rephrasing
+use_keyword_prompt: true
+
+# Higher temperature for more variation in keyword replacement
+temperature: 0.9
+
+# Improved prompt that resists keyword restoration
+prompt_with_keywords: |
+  You are a medical text editor enhancing privacy by replacing identifying terminology.
+
+  **CRITICAL INSTRUCTIONS**:
+  1. Replace EACH of the following keywords with professionally appropriate medical alternatives
+  2. Use precise medical language - avoid lay terms or oversimplifications
+  3. Maintain clinical tone and professional medical terminology
+  4. Ensure replacements sound natural and would NOT be "corrected" by another medical professional
+
+  Keywords to replace: {keywords}
+
+  **Replacement guidelines**:
+  - For diagnoses: Use alternative medical terms, not descriptions (e.g., "inflammatory arthropathy" not "joint inflammation")
+  - For medications: Use therapeutic class or mechanism (e.g., "beta-adrenergic blocker" not "heart medication")
+  - For procedures: Use alternative procedure names, not explanations (e.g., "percutaneous intervention" not "minimally invasive surgery")
+  - For symptoms: Use clinical terminology alternatives (e.g., "dyspnea" instead of "shortness of breath" or vice versa)
+  - For anatomical terms: Use medical synonyms (e.g., "cardiac" vs "myocardial")
+
+  Preserve all dates, measurements, lab values, dosages, and specific clinical facts.
+
+  Original text:
+  {text}
+
+  Provide ONLY the text with keywords replaced using professional medical alternatives:
+
+# Example paths (override via command line)
+input_path: data/input.parquet
+output_path: data/output_keyword_replaced_v2.parquet
+column: chosen  # Default column (override as needed)

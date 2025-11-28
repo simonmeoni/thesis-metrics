@@ -10,7 +10,7 @@ from omegaconf import DictConfig
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from tqdm.asyncio import tqdm_asyncio
 
-from thesis_metrics.utils import extract_keywords_from_instruction
+from thesis_metrics.utils.helpers import extract_keywords_from_instruction
 
 logger = logging.getLogger(__name__)
 
