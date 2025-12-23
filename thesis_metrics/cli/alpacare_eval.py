@@ -49,10 +49,10 @@ def parse_args():
         help="Path to the scored evaluation dataset (parquet format)",
     )
     parser.add_argument(
-        "--output_path",
+        "--output_base_path",
         type=str,
-        required=True,
-        help="Base path for saving evaluation outputs",
+        default="datasets/health/eval/model_outputs",
+        help="Base directory for saving evaluation outputs (default: datasets/health/eval/model_outputs)",
     )
 
     # Optional arguments
@@ -96,7 +96,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def display_config(args):
+def display_config(args, output_path):
     """Display configuration summary"""
     table = Table(title="Configuration", show_header=True, header_style="bold magenta")
     table.add_column("Setting", style="cyan")
@@ -104,7 +104,7 @@ def display_config(args):
 
     table.add_row("Model ID", args.model_id)
     table.add_row("Downstream Dataset", args.downstream_ds_path)
-    table.add_row("Output Path", args.output_path)
+    table.add_row("Output Path", output_path)
     table.add_row("Group ID", args.group_id)
     table.add_row("Step", args.step)
     table.add_row("Size", str(args.size))
@@ -129,11 +129,14 @@ def main():
     if args.suffix_run_name is None:
         args.suffix_run_name = args.step
 
+    # Construct output path based on model_id, size, and step
+    output_path = f"{args.output_base_path}/model={args.model_id}_size={args.size}_step={args.step}"
+
     # Determine SLURM scripts directory
     if args.slurm_dir is None:
-        # Default to original alpacare-evaluation directory
+        # Default to slurm/ directory at project root
         project_root = Path(__file__).parent.parent.parent
-        args.slurm_dir = project_root / "alpacare-evaluation" / "slurm"
+        args.slurm_dir = project_root / "slurm"
     else:
         args.slurm_dir = Path(args.slurm_dir)
 
@@ -142,12 +145,12 @@ def main():
             f"[bold red]Error:[/bold red] SLURM scripts directory not found: {args.slurm_dir}"
         )
         console.print(
-            "\nPlease specify --slurm_dir or ensure alpacare-evaluation/slurm/ exists"
+            "\nPlease specify --slurm_dir or ensure slurm/ directory exists"
         )
         return
 
     # Display configuration
-    display_config(args)
+    display_config(args, output_path)
 
     # Validate input file
     input_path = Path(args.downstream_ds_path)
@@ -170,7 +173,7 @@ def main():
     eval_gen_cmd = (
         f"{eval_gen_script} "
         f"--DOWNSTREAM_DS_PATH {args.downstream_ds_path} "
-        f"--OUTPUT_PATH {args.output_path} "
+        f"--OUTPUT_PATH {output_path} "
         f"--GROUP_ID {args.group_id}"
     )
 

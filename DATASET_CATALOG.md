@@ -108,6 +108,47 @@ Examples:
 
 ---
 
+## Health Preference Evaluations
+
+This section tracks health preference alignment scores for datasets. These scores measure how well synthetic data maintains health-related quality when used for training, as evaluated by different LLM judges. Higher scores indicate better alignment with health domain preferences.
+
+### AlpaCare DPO-1 - Keyword Replaced (60k samples)
+
+**Dataset**: `data/alpacare/model=0fe1620_size=60000_step=dpo-1_sort=mes_keyword_replaced.parquet`
+
+**Evaluation Date**: 2025-12-23
+
+**Command**:
+```bash
+python thesis_metrics/cli/alpacare_eval.py \
+  --model_id 0fe1620 \
+  --downstream_ds_path data/alpacare/model=0fe1620_size=60000_step=dpo-1_sort=mes_keyword_replaced.parquet \
+  --group_id test_run \
+  --size 60000 \
+  --step dpo-1
+```
+
+**Preference Scores**:
+
+| Evaluator | Score | Notes |
+|-----------|-------|-------|
+| text-davinci-003 | 0.695 | Best performance |
+| gpt-3.5-turbo | 0.5135 | |
+| claude-2 | 0.4895 | |
+| gpt-4 | 0.482 | |
+
+**Metadata**:
+- Model ID: 0fe1620
+- Dataset size: 60,000
+- Training step: DPO-1
+- Group ID: test_run
+- Processing: Keyword replacement
+- Privacy attack success (linkage): 14.41%
+
+**Notes**: This evaluation measures the quality of synthetic health data after keyword-aware rephrasing. The text-davinci-003 evaluator shows the highest preference score (0.695), indicating strong health domain alignment despite privacy-preserving transformations.
+
+---
+
 ## Evaluation Results Summary
 
 | Date | Dataset | Version | Linkage | Proximity | Output Dir |
@@ -144,5 +185,5 @@ Examples:
 
 ---
 
-**Last Updated**: 2025-11-21
+**Last Updated**: 2025-12-23
 **Maintainer**: Update this file when creating new datasets or running evaluations

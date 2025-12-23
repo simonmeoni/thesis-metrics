@@ -27,23 +27,23 @@ def main():
     args = parse_arguments()
 
     df = pd.read_json(
-        "datasets/health/eval/reference_outputs/claude-2/iCliniq_output.jsonl",
+        "data/alpacare/eval/reference_outputs/claude-2/iCliniq_output.jsonl",
         lines=True,
     )
     # Extract the specific column
     prompts = df["prompt"].apply(
         lambda x: x.split(
-            "Human: If you are a doctor, please answer ",
-            "the medical questions based on the patient's description.",
+            "Human: If you are a doctor, please answer "
+            "the medical questions based on the patient's description."
         )[1]
         .split("Assistant")[0]
         .strip()
     )
     prompts = prompts.apply(
         lambda x: (
-            "Below is an instruction that describes a task.",
-            "Write a response that appropriately completes the request.",
-            f"\n\n ###Instruction:\n {x}\n\n ###Response:\n",
+            "Below is an instruction that describes a task. "
+            "Write a response that appropriately completes the request."
+            f"\n\n ###Instruction:\n {x}\n\n ###Response:\n"
         )
     )
     # Initialize the LLM with your chosen model

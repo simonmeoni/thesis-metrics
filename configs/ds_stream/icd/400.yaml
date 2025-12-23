@@ -3,5 +3,8 @@ defaults:
   - default
   - _self_
 
+task:
+  top_k_labels: 400
+
 dataset:
   topk: 400

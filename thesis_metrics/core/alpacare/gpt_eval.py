@@ -243,7 +243,7 @@ if __name__ == "__main__":
             "You are a helpful instruction-following assistant that prints "
             "the best model by selecting the best outputs for a given instruction."
         )
-        prompt = open("eval/health/alpaca_eval_chat_gpt.txt").read() + "\n"
+        prompt = open("thesis_metrics/core/alpacare/alpaca_eval_chat_gpt.txt").read() + "\n"
     else:
         raise ValueError("Unsupported engine.")
 

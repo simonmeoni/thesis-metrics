@@ -1,11 +1,8 @@
 import argparse
 import os
-import shutil
-import uuid
 
 import pandas as pd
-from generate import generate_response
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from thesis_metrics.core.alpacare.model_generate import generate_response
 from vllm import LLM, SamplingParams
 
 
@@ -27,9 +24,8 @@ def parse_arguments():
 def main():
     args = parse_arguments()
     df = pd.read_parquet(args.dataset)
-    df = df.drop_duplicates(subset="example_id")
     # Extract the specific column
-    prompts = df["response"]
+    prompts = df["chosen"]
     instructions = [
         (
             "Below is an instruction that describes a task,",
@@ -43,14 +39,14 @@ def main():
 
     # Initialize the LLM with your chosen model
 
-    hf_model = AutoModelForCausalLM.from_pretrained("xz97/AlpaCare-llama2-13b")
-    hf_tokenizer = AutoTokenizer.from_pretrained("xz97/AlpaCare-llama2-13b")
-    alpacare_path = f"model/alpacare-{str(uuid.uuid4())[:7]}"
-    hf_model.save_pretrained(alpacare_path)
-    hf_tokenizer.save_pretrained(alpacare_path)
+    alpacare_path = "model/alpacare"
+    # Disable eager CUDA graph compilation to prevent freezing
+    # Set enforce_eager=True to disable CUDA graphs entirely
     llm = LLM(
-        model="./model/alpacare",
+        model=alpacare_path,
         tensor_parallel_size=args.tp,
+        enforce_eager=True,  # Disable CUDA graphs to prevent freezing
+        disable_log_stats=True,
     )
 
     sampling_params = SamplingParams(
@@ -79,7 +75,6 @@ def main():
     output_file = os.path.join(args.output_path, "evaluation_alpacare_sft.parquet")
     df_output.to_parquet(output_file)
     df_output.to_parquet("./evaluation_alpacare_sft.parquet")
-    shutil.rmtree(alpacare_path)
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=16
 #SBATCH --output=log/mimic_icd_%A_%a.out
-#SBATCH --time=04:00:00
+#SBATCH --time=02:00:00
 #SBATCH --error=log/mimic_icd_%A_%a.err
 #SBATCH --qos=qos_gpu_h100-dev
 #SBATCH --mail-type=END
@@ -62,9 +62,17 @@ echo "=========================================="
 
 # Load environment
 module purge
+module load arch/h100
 module load miniforge/24.9.0
 conda activate synth-kg
 module load cuda
+
+# Set Python path for imports
+export PYTHONPATH="/lustre/fswork/projects/rech/lch/ufw96he/thesis-metrics:$PYTHONPATH"
+
+# Set project root for absolute paths
+PROJECT_ROOT="/lustre/fswork/projects/rech/lch/ufw96he/thesis-metrics"
+cd "$PROJECT_ROOT"
 
 # Create log directory if it doesn't exist
 mkdir -p log
@@ -73,18 +81,20 @@ mkdir -p log
 echo "Running ICD classification with top-$TOPK on $DATASET_NAME..."
 
 # Use Python to run with proper Hydra overrides
-python -m thesis_metrics.cli.downstream_eval \
-    --config-path=../../configs/ds_stream/icd \
-    --config-name=$TOPK \
+python thesis_metrics/cli/downstream_eval.py \
+    --config-name="icd/$TOPK" \
+    hydra.job.chdir=false \
     task.type=icd_classification \
     task.model_name=microsoft/deberta-v3-base \
-    task.train_data_path=$DATASET_PATH \
+    task.train_data_path="$DATASET_PATH" \
     task.test_data_path=data/mimic-iii/privacy_dataset_filtered.parquet \
     task.text_column=generation_rephrased \
-    task.top_k_labels=$TOPK \
+    task.top_k_labels="$TOPK" \
     task.precision_mode=true \
     task.percentile_threshold=10 \
     task.threshold=0.5 \
+    dataset.name="$DATASET_NAME" \
+    dataset.topk="$TOPK" \
     wandb_project=style-transfer-icd-seed \
     seed=42
 

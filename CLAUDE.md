@@ -343,3 +343,7 @@ Before considering a dataset complete:
 
 **Last Updated**: 2025-11-21
 **Purpose**: Maintain consistency and completeness in experimental tracking
+- ok i need to deploy it on jean zay i have the access via the lunette command alias
+- the everything is inside thesis-metrics folder in jean zay / the env to use is synth-kg it's a miniconda env
+- slurm is install you have to activate synth-kg first to execute the script that i have you have only miniconda
+- you have sync.sh to synchronize with Jean zay
